@@ -13,12 +13,16 @@ DEF_HASHMAP(String, String)
 typedef struct HTTPHeader {
     String method, url, protocol;
     DArrayString url_detail;
-    HashMapStringString attributes;
-    union {
-        String raw;
-        HashMapStringString form;
-        JSONDocument json;
-    } data;
+    HashMapStringString params;
+    HashMapStringString attrs;
 } HTTPHeader;
+
+int HTTPHeader_initialize(HTTPHeader *header);
+int HTTPHeader_parse(HTTPHeader *header, char *str);
+// int HTTPHeader_serialize(
+//     HTTPHeader *header,
+//     String *buf,
+//     bool use_url_detail,
+//     bool use_params);
 
 #endif
