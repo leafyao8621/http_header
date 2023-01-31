@@ -4,25 +4,16 @@
 #include <containers/darray.h>
 #include <containers/hashmap.h>
 
-#include <json/document.h>
-
-DEF_DARRAY(String)
-
+typedef char Char;
+DEF_DARRAY(Char)
+typedef DArrayChar String;
 DEF_HASHMAP(String, String)
 
-typedef struct HTTPHeader {
-    String method, url, protocol;
-    DArrayString url_detail;
-    HashMapStringString params;
-    HashMapStringString attrs;
-} HTTPHeader;
+typedef HashMapStringString HTTPHeader;
 
 int HTTPHeader_initialize(HTTPHeader *header);
-int HTTPHeader_parse(HTTPHeader *header, char *str);
-// int HTTPHeader_serialize(
-//     HTTPHeader *header,
-//     String *buf,
-//     bool use_url_detail,
-//     bool use_params);
+int HTTPHeader_parse(HTTPHeader *header, char **iter);
+int HTTPHeader_finalize(HTTPHeader *header);
+int HTTPHeader_serialize(HTTPHeader *header, String *buf);
 
 #endif

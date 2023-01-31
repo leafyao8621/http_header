@@ -1,4 +1,3 @@
-POST / HTTP/1.1
 Host: localhost:8000
 User-Agent: python-requests/2.25.1
 Accept-Encoding: gzip, deflate
@@ -6,5 +5,3 @@ Accept: */*
 Connection: keep-alive
 Content-Length: 16
 Content-Type: application/json
-
-{"abcde": 12345}
