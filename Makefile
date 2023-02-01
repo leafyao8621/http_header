@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 	$(CC) $(CFLAGS) -g -c $< -o $@
 
 $(LIB): $(OBJ)
-	$(CC) $(OBJ) -shared -o $(LIB)
+	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers
 	@cp src/http_header/http_header.h include/http_util
 	@cp src/util/errcode.h include/http_util
 
