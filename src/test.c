@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include <http_header/http_header.h>
-#include <http_header/errcode.h>
+#include <http_util/http_header.h>
+#include <http_util/errcode.h>
 #include <containers/eq.h>
 #include <containers/hash.h>
 

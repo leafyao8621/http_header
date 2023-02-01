@@ -10,8 +10,8 @@ CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 
 $(LIB): $(OBJ)
 	$(CC) $(OBJ) -shared -o $(LIB)
-	cp src/http_header/http_header.h include/http_header
-	cp src/util/errcode.h include/http_header
+	@cp src/http_header/http_header.h include/http_util
+	@cp src/util/errcode.h include/http_util
 
 $(BIN): $(LIB)
 	$(CC) src/test.c -o $(BIN) -Llib -lhttpheader -lcontainers -Iinclude -Wl,-rpath,lib
@@ -22,5 +22,5 @@ clean:
 	@rm $(LIB)
 	@rm $(BIN)
 install:
-	@cp -r include/json ~/.local/include
+	@cp -r include/http_util ~/.local/include
 	@cp $(LIB) ~/.local/lib
