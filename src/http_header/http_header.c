@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <containers/eq.h>
 #include <containers/hash.h>
 
@@ -31,7 +33,7 @@ int HTTPHeader_parse(HTTPHeader *header, char **iter) {
         return HTTP_HEADER_ERR_NULL_PTR;
     }
     char chr = 0;
-    for (; **iter && **iter != '\n'; ++(*iter)) {
+    for (; **iter && **iter != '\n' && **iter != '\r'; ++(*iter)) {
         String buf;
         int ret = DArrayChar_initialize(&buf, 100);
         if (ret) {
