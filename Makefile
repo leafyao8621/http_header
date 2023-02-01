@@ -1,7 +1,7 @@
 CC = gcc
 SRC = $(wildcard src/*/*.c) $(wildcard src/*/*/*.c)
 OBJ = $(SRC:.c=.o)
-LIB = lib/libhttpheader.so
+LIB = lib/libhttputil.so
 BIN = test
 CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 
@@ -14,7 +14,7 @@ $(LIB): $(OBJ)
 	@cp src/util/errcode.h include/http_util
 
 $(BIN): $(LIB)
-	$(CC) src/test.c -o $(BIN) -Llib -lhttpheader -lcontainers -Iinclude -Wl,-rpath,lib
+	$(CC) src/test.c -o $(BIN) -Llib -lhttputil -lcontainers -Iinclude -Wl,-rpath,lib
 
 .PHONY: clean install
 clean:
