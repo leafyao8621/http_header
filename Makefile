@@ -11,6 +11,7 @@ CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 $(LIB): $(OBJ)
 	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers
 	@cp src/http_header/http_header.h include/http_util
+	@cp src/url/url.h include/http_util
 	@cp src/util/errcode.h include/http_util
 
 $(BIN): $(LIB)

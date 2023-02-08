@@ -25,10 +25,10 @@ read_file("data/"#fn".txt", &file_buf);\
 HTTPHeader_initialize(&header);\
 iter = file_buf.data;\
 ret = HTTPHeader_parse(&header, &iter);\
-printf("%d %s\n", ret, http_header_errcode_lookup[ret]);\
+printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
 if (!ret) {\
     ret = HTTPHeader_serialize(&header, &out_buf);\
-    printf("%d %s\n", ret, http_header_errcode_lookup[ret]);\
+    printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
     char chr = 0;\
     DArrayChar_push_back(&out_buf, &chr);\
     puts(out_buf.data);\

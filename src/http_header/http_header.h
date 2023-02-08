@@ -1,12 +1,10 @@
 #ifndef HTTP_HEADER_HTTP_HEADER_H_
 #define HTTP_HEADER_HTTP_HEADER_H_
 
+#include <containers/dstring.h>
 #include <containers/darray.h>
 #include <containers/hashmap.h>
 
-typedef char Char;
-DEF_DARRAY(Char)
-typedef DArrayChar String;
 DEF_HASHMAP(String, String)
 
 typedef HashMapStringString HTTPHeader;
