@@ -5,8 +5,12 @@
 #include <containers/darray.h>
 #include <containers/hashmap.h>
 
-DEF_HASHMAP(String, String)
+DEF_DARRAY(String)
 
-int http_util_path_breakdown(char **iter);
+typedef DArrayString URLBreakdown;
+
+int URLBreakdown_initialize(URLBreakdown *breakdown);
+int URLBreakdown_parse(URLBreakdown *breakdown, char **iter);
+int URLBreakdown_finalize(URLBreakdown *breakdown);
 
 #endif

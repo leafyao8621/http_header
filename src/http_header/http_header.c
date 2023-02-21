@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include <containers/eq.h>
 #include <containers/hash.h>
 
