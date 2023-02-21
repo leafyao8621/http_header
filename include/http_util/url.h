@@ -9,8 +9,14 @@ DEF_DARRAY(String)
 
 typedef DArrayString URLBreakdown;
 
-int URLBreakdown_initialize(URLBreakdown *breakdown);
-int URLBreakdown_parse(URLBreakdown *breakdown, char **iter);
-int URLBreakdown_finalize(URLBreakdown *breakdown);
+typedef struct URL {
+    String text;
+    URLBreakdown breakdown;
+} URL;
+
+int URL_initialize(URL *url);
+int URL_parse(URL *url, char **iter);
+int URL_finalize(URL *url);
+int URL_serialize(URL *url, String *buf);
 
 #endif
