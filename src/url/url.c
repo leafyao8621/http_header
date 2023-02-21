@@ -70,13 +70,12 @@ int URL_parse(URL *url, char **iter) {
         DArrayChar_finalize(&buf);
         return HTTP_UTIL_ILL_FORMATTED;
     }
-
-    ret = DArrayChar_push_back(&url->text, &chr);
-    if (ret) {
-        DArrayChar_finalize(&buf);
-        return HTTP_UTIL_ERR_PARSE;
-    }
     if (buf.size) {
+        ret = DArrayChar_push_back_batch(&url->text, "/", 2);
+        if (ret) {
+            DArrayChar_finalize(&buf);
+            return HTTP_UTIL_ERR_PARSE;
+        }
         ret = DArrayChar_push_back(&buf, &chr);
         if (ret) {
             DArrayChar_finalize(&buf);
@@ -88,6 +87,11 @@ int URL_parse(URL *url, char **iter) {
             return HTTP_UTIL_ERR_PARSE;
         }
     } else {
+        ret = DArrayChar_push_back(&url->text, &chr);
+        if (ret) {
+            DArrayChar_finalize(&buf);
+            return HTTP_UTIL_ERR_PARSE;
+        }
         DArrayChar_finalize(&buf);
     }
     return HTTP_UTIL_ERR_OK;
