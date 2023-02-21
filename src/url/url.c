@@ -1,6 +1,8 @@
 #include "url.h"
 #include "../util/errcode.h"
 
+DEF_DARRAY_FUNCTIONS(String)
+
 int URLBreakdown_initialize(URLBreakdown *breakdown) {
     if (!breakdown) {
         return HTTP_UTIL_ERR_NULL_PTR;
@@ -37,5 +39,17 @@ int URLBreakdown_parse(URLBreakdown *breakdown, char **iter) {
             }
         }
     }
+    if (!**iter) {
+        DArrayChar_finalize(&buf);
+        return HTTP_UTIL_ILL_FORMATTED;
+    }
+    if (buf.size) {
+        ret = DArrayString_push_back(breakdown, &buf);
+        if (ret) {
+            DArrayChar_finalize(&buf);
+            return HTTP_UTIL_ERR_PARSE;
+        }
+    }
+    DArrayChar_finalize(&buf);
     return HTTP_UTIL_ERR_OK;
 }

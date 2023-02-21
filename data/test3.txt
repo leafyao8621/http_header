@@ -1,0 +1,7 @@
+GET /abc?abc=def&fgh=iur HTTP/1.1
+User-Agent: PostmanRuntime/7.30.1
+Accept: */*
+Postman-Token: 5de2fa51-dd61-4558-88ef-ba83b54aa807
+Host: localhost:8000
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
