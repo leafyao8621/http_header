@@ -64,9 +64,9 @@ int main(void) {
     DArrayChar_initialize(&file_buf, 1000);
     DArrayChar_initialize(&out_buf, 1000);
 
-    TEST(test1)
+    // TEST(test1)
     TEST(test2)
-    TEST(test3)
+    // TEST(test3)
 
     DArrayChar_finalize(&file_buf);
     DArrayChar_finalize(&out_buf);

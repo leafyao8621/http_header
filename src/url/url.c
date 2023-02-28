@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "url.h"
 #include "../util/errcode.h"
 
@@ -70,8 +68,12 @@ int URL_parse(URL *url, char **iter) {
         return HTTP_UTIL_ERR_PARSE;
     }
     char chr = 0;
-    String buf;
+    String buf, encoded;
     ret = DArrayChar_initialize(&buf, 100);
+    if (ret) {
+        return HTTP_UTIL_ERR_PARSE;
+    }
+    ret = DArrayChar_initialize(&encoded, 100);
     if (ret) {
         return HTTP_UTIL_ERR_PARSE;
     }
@@ -84,53 +86,71 @@ int URL_parse(URL *url, char **iter) {
             ret = DArrayChar_push_back(&buf, &chr);
             if (ret) {
                 DArrayChar_finalize(&buf);
+                DArrayChar_finalize(&encoded);
                 return HTTP_UTIL_ERR_PARSE;
             }
-            ret = DArrayString_push_back(&url->breakdown, &buf);
+            ret = url_decode(buf.data, &encoded);
+            if (ret) {
+                return ret;
+            }
+            ret = DArrayString_push_back(&url->breakdown, &encoded);
             if (ret) {
                 DArrayChar_finalize(&buf);
+                DArrayChar_finalize(&encoded);
                 return HTTP_UTIL_ERR_PARSE;
             }
+            DArrayChar_finalize(&buf);
             ret = DArrayChar_initialize(&buf, 100);
             if (ret) {
+                DArrayChar_finalize(&encoded);
+                return HTTP_UTIL_ERR_PARSE;
+            }
+            ret = DArrayChar_initialize(&encoded, 100);
+            if (ret) {
                 DArrayChar_finalize(&buf);
+                DArrayChar_finalize(&encoded);
                 return HTTP_UTIL_ERR_PARSE;
             }
         } else {
             ret = DArrayChar_push_back(&buf, *iter);
             if (ret) {
                 DArrayChar_finalize(&buf);
+                DArrayChar_finalize(&encoded);
                 return HTTP_UTIL_ERR_PARSE;
             }
         }
     }
     if (!**iter) {
         DArrayChar_finalize(&buf);
+        DArrayChar_finalize(&encoded);
         return HTTP_UTIL_ILL_FORMATTED;
     }
     if (buf.size) {
         ret = DArrayChar_push_back_batch(&url->text, "/", 2);
         if (ret) {
             DArrayChar_finalize(&buf);
+            DArrayChar_finalize(&encoded);
             return HTTP_UTIL_ERR_PARSE;
         }
         ret = DArrayChar_push_back(&buf, &chr);
         if (ret) {
             DArrayChar_finalize(&buf);
+            DArrayChar_finalize(&encoded);
             return HTTP_UTIL_ERR_PARSE;
         }
         ret = DArrayString_push_back(&url->breakdown, &buf);
         if (ret) {
             DArrayChar_finalize(&buf);
+            DArrayChar_finalize(&encoded);
             return HTTP_UTIL_ERR_PARSE;
         }
     } else {
+        DArrayChar_finalize(&buf);
+        DArrayChar_finalize(&encoded);
         ret = DArrayChar_push_back(&url->text, &chr);
         if (ret) {
-            DArrayChar_finalize(&buf);
             return HTTP_UTIL_ERR_PARSE;
         }
-        DArrayChar_finalize(&buf);
     }
     return HTTP_UTIL_ERR_OK;
 }
