@@ -4,8 +4,6 @@
 #include "http_header.h"
 #include "../util/errcode.h"
 
-DEF_HASHMAP_FUNCTIONS(String, String)
-
 int HTTPHeader_initialize(HTTPHeader *header) {
     if (!header) {
         return HTTP_UTIL_ERR_NULL_PTR;

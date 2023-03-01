@@ -6,13 +6,15 @@ BIN = test
 CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g -c $< -o $@
+	$(CC) $(CFLAGS) -g -c $< -o $@ -Iinclude
 
 $(LIB): $(OBJ)
-	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers
 	@cp src/http_header/http_header.h include/http_util
 	@cp src/url/url.h include/http_util
 	@cp src/util/errcode.h include/http_util
+	@cp src/util/containers.h include/http_util
+	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers
+
 
 $(BIN): $(LIB)
 	$(CC) src/test.c -o $(BIN) -Llib -lhttputil -lcontainers -Iinclude -Wl,-rpath,lib

@@ -1,8 +1,6 @@
 #include "url.h"
 #include "../util/errcode.h"
 
-DEF_DARRAY_FUNCTIONS(String)
-
 int url_decode(char *in, String *out) {
     char chr = 0;
     int ret = 0;
@@ -138,12 +136,17 @@ int URL_parse(URL *url, char **iter) {
             DArrayChar_finalize(&encoded);
             return HTTP_UTIL_ERR_PARSE;
         }
-        ret = DArrayString_push_back(&url->breakdown, &buf);
+        ret = url_decode(buf.data, &encoded);
+        if (ret) {
+            return ret;
+        }
+        ret = DArrayString_push_back(&url->breakdown, &encoded);
         if (ret) {
             DArrayChar_finalize(&buf);
             DArrayChar_finalize(&encoded);
             return HTTP_UTIL_ERR_PARSE;
         }
+        DArrayChar_finalize(&buf);
     } else {
         DArrayChar_finalize(&buf);
         DArrayChar_finalize(&encoded);
