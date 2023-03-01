@@ -27,3 +27,6 @@ clean:
 install:
 	@cp -r include/http_util ~/.local/include
 	@cp $(LIB) ~/.local/lib
+uninstall:
+	@rm -rf ~/.local/include/http_util
+	@rm -rf ~/.local/lib/$(LIB)
