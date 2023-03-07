@@ -44,10 +44,13 @@ if (*iter == '?') {\
     ret = URLParams_parse(&params, &iter);\
     printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
     if (!ret) {\
-        ret = HTTPHeader_serialize(&params, &out_buf);\
+        ret = URLParams_serialize(&params, &out_buf);\
         printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
-        char chr = 0;\
-        DArrayChar_push_back(&out_buf, &chr);\
+        puts(out_buf.data);\
+        DArrayChar_clear(&out_buf);\
+        ret = HTTPHeader_serialize(&params, &out_buf);\
+        printf("%lu\n", params.size);\
+        printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
         puts(out_buf.data);\
         DArrayChar_clear(&out_buf);\
     }\

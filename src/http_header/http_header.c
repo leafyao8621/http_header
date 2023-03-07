@@ -141,5 +141,10 @@ int HTTPHeader_serialize(HTTPHeader *header, String *buf) {
     if (ret) {
         return HTTP_UTIL_SERIALIZE;
     }
+    chr = 0;
+    ret = DArrayChar_push_back(buf, &chr);
+    if (ret) {
+        return HTTP_UTIL_SERIALIZE;
+    }
     return HTTP_UTIL_ERR_OK;
 }
