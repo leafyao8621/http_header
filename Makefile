@@ -29,4 +29,4 @@ install:
 	@cp $(LIB) ~/.local/lib
 uninstall:
 	@rm -rf ~/.local/include/http_util
-	@rm -rf ~/.local/lib/$(LIB)
+	@rm -rf ~/.local/$(LIB)

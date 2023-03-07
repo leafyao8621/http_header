@@ -22,6 +22,7 @@ void read_file(char *fn, String *buf) {
 }
 
 #define TEST(fn)\
+has_param = false;\
 read_file("data/"#fn".txt", &file_buf);\
 puts(#fn);\
 iter = file_buf.data;\
@@ -36,6 +37,20 @@ if (!ret) {\
     DArrayChar_push_back(&out_buf, &chr);\
     puts(out_buf.data);\
     DArrayChar_clear(&out_buf);\
+}\
+if (*iter == '?') {\
+    has_param = true;\
+    URLParams_initialize(&params);\
+    ret = URLParams_parse(&params, &iter);\
+    printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
+    if (!ret) {\
+        ret = HTTPHeader_serialize(&params, &out_buf);\
+        printf("%d %s\n", ret, http_util_errcode_lookup[ret]);\
+        char chr = 0;\
+        DArrayChar_push_back(&out_buf, &chr);\
+        puts(out_buf.data);\
+        DArrayChar_clear(&out_buf);\
+    }\
 }\
 for (; *iter != 0 && *iter != '\n'; ++iter);\
 ++iter;\
@@ -52,21 +67,26 @@ if (!ret) {\
 }\
 HTTPHeader_finalize(&header);\
 URL_finalize(&url);\
+if (has_param) {\
+    URLParams_finalize(&params);\
+}\
 DArrayChar_clear(&file_buf);
 
 
 int main(void) {
     URL url;
     HTTPHeader header;
+    URLParams params;
     String file_buf, out_buf;
+    bool has_param;
     char *iter;
     int ret = 0;
     DArrayChar_initialize(&file_buf, 1000);
     DArrayChar_initialize(&out_buf, 1000);
 
     TEST(test1)
-    // TEST(test2)
-    // TEST(test3)
+    TEST(test2)
+    TEST(test3)
 
     DArrayChar_finalize(&file_buf);
     DArrayChar_finalize(&out_buf);
