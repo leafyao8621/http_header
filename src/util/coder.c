@@ -66,7 +66,7 @@ int url_encode(char *in, String *out) {
                 }
                 break;
             default:
-                snprintf(buf, 4, "%%%02X", *iter);
+                snprintf(buf, 4, "%%%02hhX", *iter);
                 ret = DArrayChar_push_back_batch(out, buf, 3);
                 break;
             }
