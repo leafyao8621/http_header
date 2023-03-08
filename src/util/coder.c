@@ -4,7 +4,7 @@
 #include "errcode.h"
 
 int url_decode(char *in, String *out) {
-    uint8_t chr = 0;
+    char chr = 0;
     int ret = 0;
     for (char *iter = in; *iter; ++iter) {
         if (*iter == '%') {
@@ -22,7 +22,7 @@ int url_decode(char *in, String *out) {
                     return HTTP_UTIL_ILL_FORMATTED;
                 }
             }
-            ret = DArrayChar_push_back(out, (char*)&chr);
+            ret = DArrayChar_push_back(out, &chr);
             if (ret) {
                 return HTTP_UTIL_ERR_PARSE;
             }
