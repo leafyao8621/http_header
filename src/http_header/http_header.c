@@ -54,13 +54,16 @@ int HTTPHeader_parse(HTTPHeader *header, char **iter) {
             DArrayChar_finalize(&buf);
             return HTTP_UTIL_ERR_PARSE;
         }
-        for (*iter += 2; **iter && **iter != '\n'; ++(*iter)) {
+        for (*iter += 2; **iter && **iter != '\n'&& **iter != '\r'; ++(*iter)) {
             ret = DArrayChar_push_back(&temp, *iter);
             if (ret) {
                 DArrayChar_finalize(&buf);
                 DArrayChar_finalize(&temp);
                 return HTTP_UTIL_ERR_PARSE;
             }
+        }
+        if (**iter == '\r') {
+            ++(*iter);
         }
         ret = DArrayChar_push_back(&temp, &chr);
         if (ret) {
