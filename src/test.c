@@ -3,8 +3,6 @@
 #include <http_util/http_header.h>
 #include <http_util/errcode.h>
 #include <http_util/url.h>
-#include <containers/eq.h>
-#include <containers/hash.h>
 
 
 
@@ -66,6 +64,11 @@ if (!ret) {\
     char chr = 0;\
     DArrayChar_push_back(&out_buf, &chr);\
     puts(out_buf.data);\
+    DArrayChar_clear(&out_buf);\
+    bool found = false;\
+    DArrayChar_push_back_batch(&out_buf, "Connection", 11);\
+    HashMapStringString_find(&header, &out_buf, &found);\
+    printf("found %d\n", found);\
     DArrayChar_clear(&out_buf);\
 }\
 HTTPHeader_finalize(&header);\
