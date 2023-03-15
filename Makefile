@@ -6,7 +6,7 @@ BIN = test
 CFLAGS = -Wall -Wextra -Werror -pedantic -fPIC
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g -c $< -o $@ -Iinclude
+	$(CC) $(CFLAGS) -O3 -c $< -o $@ -Iinclude
 
 $(LIB): $(OBJ)
 	@cp src/http_header/http_header.h include/http_util
