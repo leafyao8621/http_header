@@ -14,11 +14,12 @@ $(LIB): $(OBJ)
 	@cp src/util/errcode.h include/http_util
 	@cp src/util/coder.h include/http_util
 	@cp src/util/containers.h include/http_util
-	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers
+	@cp src/http_request_response/http_request_response.h include/http_util
+	$(CC) $(OBJ) -shared -o $(LIB) -lcontainers -ljson
 
 
 $(BIN): $(LIB)
-	$(CC) src/test.c -o $(BIN) -Llib -lhttputil -lcontainers -Iinclude -Wl,-rpath,lib
+	$(CC) src/test.c -o $(BIN) -Llib -lhttputil -lcontainers -ljson -Iinclude -Wl,-rpath,lib
 
 .PHONY: clean install
 clean:
