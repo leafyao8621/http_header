@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <http_util/errcode.h>
 #include <json/errcode.h>
 
@@ -179,6 +180,16 @@ int HTTPResponse_serialize(HTTPResponse *response, String *buf) {
         return HTTP_UTIL_SERIALIZE;
     }
     DArrayChar_pop_back(buf);
+    if (response->response_code == HTTP_RESPONSE_204) {
+        DArrayChar_pop_back(buf);
+        DArrayChar_pop_back(buf);
+        chr = 0;
+        ret = DArrayChar_push_back(buf, &chr);
+        if (ret) {
+            return HTTP_UTIL_SERIALIZE;
+        }
+        return HTTP_UTIL_ERR_OK;
+    }
     switch (response->body_type) {
     case BODY_TYPE_NONE:
         break;
